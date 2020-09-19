@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1091648046608",
+    "firebase_url": "https://klikpijacaapp-3072c.firebaseio.com",
+    "project_id": "klikpijacaapp-3072c",
+    "storage_bucket": "klikpijacaapp-3072c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091648046608:android:989f3edeba35d332082c95",
+        "android_client_info": {
+          "package_name": "com.example.klik_pijaca_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091648046608-6pe6k4vf55e0gjljf05fiv8futt4bh9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOnVg905iaU0bLEpVh8zpGyzyfoGdBx6Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091648046608-6pe6k4vf55e0gjljf05fiv8futt4bh9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

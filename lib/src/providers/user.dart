@@ -6,7 +6,7 @@ import 'package:klik_pijaca_app/src/models/user.dart';
 
 enum Status{Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
-class AuthProvider with ChangeNotifier{
+class UserProvider with ChangeNotifier{
   FirebaseAuth _auth;
   User _user;
   Status _status = Status.Uninitialized;
@@ -26,7 +26,7 @@ class AuthProvider with ChangeNotifier{
   TextEditingController name = TextEditingController();
 
 
-  AuthProvider.initialize(): _auth = FirebaseAuth.instance{
+  UserProvider.initialize(): _auth = FirebaseAuth.instance{
     _auth.onAuthStateChanged.listen(_onStateChanged);
   }
 
@@ -50,7 +50,7 @@ class AuthProvider with ChangeNotifier{
       _status = Status.Authenticating;
       notifyListeners();
       await _auth.createUserWithEmailAndPassword(email: email.text.trim(), password: password.text.trim()).then((result){
-        _firestore.collection('users').document(result.user.uid).setData({
+        _firestore.collection('users').doc(result.user.uid).set({
           'name':name.text,
           'email':email.text,
           'uid':result.user.uid,

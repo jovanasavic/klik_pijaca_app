@@ -1,5 +1,4 @@
   import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class CategoryModel{
 
@@ -7,12 +6,12 @@ class CategoryModel{
   static const NAME = "name";
   static const IMAGE = "image";
 
-  String _id;
+  int _id;
   String _name;
   String _image;
 
   //getters
-  String get id => _id;
+  int get id => _id;
   String get name => _name;
   String get image => _image;
 

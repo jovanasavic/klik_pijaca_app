@@ -1,6 +1,6 @@
-import 'file:///C:/Users/jovan/AndroidStudioProjects/app_klik_pijaca/lib/src/helpers/style.dart';
 import 'package:klik_pijaca_app/src/helpers/screen_navigation.dart';
-import 'package:klik_pijaca_app/src/providers/auth.dart';
+import 'package:klik_pijaca_app/src/helpers/style.dart';
+import 'package:klik_pijaca_app/src/providers/user.dart';
 import 'package:klik_pijaca_app/src/screens/home.dart';
 import 'package:klik_pijaca_app/src/screens/login.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
@@ -19,7 +19,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       key: _key,

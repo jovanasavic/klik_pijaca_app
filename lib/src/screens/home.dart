@@ -1,13 +1,16 @@
-import 'file:///C:/Users/jovan/AndroidStudioProjects/app_klik_pijaca/lib/src/helpers/style.dart';
 import 'package:klik_pijaca_app/src/helpers/screen_navigation.dart';
-import 'package:klik_pijaca_app/src/providers/auth.dart';
+import 'package:klik_pijaca_app/src/helpers/style.dart';
+import 'package:klik_pijaca_app/src/providers/product.dart';
+import 'package:klik_pijaca_app/src/providers/user.dart';
+import 'package:klik_pijaca_app/src/providers/category.dart';
 import 'package:klik_pijaca_app/src/screens/bag.dart';
-import 'package:klik_pijaca_app/src/widgets/bottom_navigation_icons.dart';
 import 'package:klik_pijaca_app/src/widgets/categories.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
 import 'package:klik_pijaca_app/src/widgets/featured_products.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'category.dart';
 
 
 
@@ -19,8 +22,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
-    print("User!!!!!!!!" + authProvider.toString());
+    final userProvider = Provider.of<UserProvider>(context);
+    final categoryProvider = Provider.of<CategoryProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
+
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color:Colors.white),
@@ -39,10 +45,10 @@ class _HomeState extends State<Home> {
                 height: 10,
                 width: 10,
                 decoration: BoxDecoration(
-                    color: green,
-                    borderRadius: BorderRadius.circular(20)),
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(20)))
               ),
-            )
+            
           ],
         ),
 
@@ -57,7 +63,7 @@ class _HomeState extends State<Home> {
                   height: 10,
                   width: 10,
                   decoration: BoxDecoration(
-                      color: green,
+                      color: Colors.green,
                       borderRadius: BorderRadius.circular(20)),
                 ),
               )
@@ -70,7 +76,10 @@ class _HomeState extends State<Home> {
           children: <Widget> [
             UserAccountsDrawerHeader(
               decoration: BoxDecoration( color: Colors.blueGrey),
-              accountName: CustomText(text: authProvider.userModel?.name, color: white, weight: FontWeight.bold, size: 18,), accountEmail:CustomText(text: authProvider.userModel?.email, color: white,), ),
+              accountName: 
+                CustomText(text: userProvider.userModel?.name, color: Colors.white, weight: FontWeight.bold, size: 18,), 
+              accountEmail:
+                CustomText(text: userProvider.userModel?.email, color: Colors.white,), ),
             ListTile(
               onTap: (){},
               leading: Icon(Icons.home),
@@ -92,7 +101,7 @@ class _HomeState extends State<Home> {
 
         ),
       ),
-      backgroundColor: white,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(
           children: <Widget>[
@@ -104,16 +113,16 @@ class _HomeState extends State<Home> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0, bottom: 20.0),
                 child: Container(
-                  decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(20), ),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), ),
                   child: ListTile(
-                    leading: Icon(Icons.search, color: green),
+                    leading: Icon(Icons.search, color: Colors.green),
                     title: TextField(
                       decoration: InputDecoration(
                         hintText: ("Find food that you want..."),
                         border: InputBorder.none,
                       ),
                     ),
-                    trailing: Icon(Icons.filter_list, color: green),
+                    trailing: Icon(Icons.filter_list, color: Colors.green),
                   ),
                 ),
               ),
@@ -121,16 +130,50 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 5,
             ),
-            Categories(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomText(text: "Featured", size: 20, color: grey),
-            ),
+            Container(
+      height: 110,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: categoryProvider.categories.length,
+        itemBuilder: (context,index){
+         return GestureDetector(
+                      onTap: ()async{
+                        await productProvider.loadProductsByCategory(categoryName: categoryProvider.categories[index].name);
+                        changeScreen(context, CategoryScreen(categoryModel: categoryProvider.categories[index],));
+                      },
+                      child: Category(
+                        category: categoryProvider.categories[index],
+                      ));
+        },
 
+      ),
+    ),
+     SizedBox(
+              height: 5,
+            ),
+             Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CustomText(
+                    text: "Featured",
+                    size: 20,
+                    color: grey,
+                  ),
+
+                  CustomText(
+                    text: "see all",
+                    size: 14,
+                    color: green,
+                  ),
+                ],
+              ),
+            ),
             Featured(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CustomText(text: "Recipes", size: 20, color: grey),
+              child: CustomText(text: "Recipes", size: 20, color: Colors.grey),
             ),
 
             // we are using stack so we can add some new widgets on top of the first one
@@ -155,12 +198,12 @@ class _HomeState extends State<Home> {
                     children: <Widget> [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.favorite, color: white,),
+                        child: Icon(Icons.favorite, color: Colors.white,),
                       ),
                       Container(
                         width: 50,
                         decoration: BoxDecoration(
-                            color:white,
+                            color:Colors.white,
                             borderRadius: BorderRadius.circular(5)
                         ),
                         child: Row(

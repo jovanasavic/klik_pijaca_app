@@ -13,6 +13,7 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
+  int quantity = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,19 +25,14 @@ class _DetailsState extends State<Details> {
               height: 300,
               child: Stack(
                 children:<Widget> [
-                  Carousel(
-                    images: [
-                      AssetImage("images/${widget.product.image}"),
-                      AssetImage("images/${widget.product.image}"),
-                      AssetImage("images/${widget.product.image}"),
-                    ],
-                    dotBgColor: white,
-                    dotColor: grey,
-                    dotIncreasedColor: green,
-                    dotIncreaseSize: 1.2,
-                    autoplay: false,
-
-                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left :50.0),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(widget.product.image),
+                      radius:150
+                    
+                    ),
+                  ), 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children:<Widget>  [
@@ -121,7 +117,13 @@ class _DetailsState extends State<Details> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: IconButton(icon: Icon(Icons.remove, size:36,), onPressed: (){}),
+                  child: IconButton(icon: Icon(Icons.remove, size:36,), onPressed: (){
+                     if(quantity != 1){
+                      setState(() {
+                        quantity -= 1;
+                      });
+                    }
+                  }),
                 ),
                 GestureDetector(
                   onTap: (){},
@@ -131,15 +133,18 @@ class _DetailsState extends State<Details> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(28,12,28,12),
-                      child: CustomText(text: "Add to bag",color: white, size: 24 , weight: FontWeight.w600,),
+                      child: CustomText(text: "Add $quantity To Cart",color: white, size: 24 , weight: FontWeight.w600,),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: IconButton(icon: Icon(Icons.add, size:36,), onPressed: (){}),
+                  child: IconButton(icon: Icon(Icons.add, size:36,), onPressed: (){
+                     setState(() {
+                      quantity += 1;
+                    });
+                  }),
                 ),
-
               ],
             )
 

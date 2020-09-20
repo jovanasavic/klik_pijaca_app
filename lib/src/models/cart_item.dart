@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:klik_pijaca_app/src/models/products.dart';
 
 class CartItemModel{
 

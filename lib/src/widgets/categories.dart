@@ -1,41 +1,74 @@
-import 'package:klik_pijaca_app/src/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:klik_pijaca_app/src/helpers/style.dart';
+import 'package:klik_pijaca_app/src/models/category.dart';
+import 'package:klik_pijaca_app/src/widgets/loading.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'custom_text.dart';
 
-List<CategoryModel> categoriesList = [];
-class Categories extends StatefulWidget {
-  @override
-  _CategoriesState createState() => _CategoriesState();
-}
+class Category extends StatelessWidget {
 
-class _CategoriesState extends State<Categories> {
+  final CategoryModel category;
+
+  const Category({Key key, this.category}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 110,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categoriesList.length,
-        itemBuilder: (context,index){
-          return  Padding(
+    return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
+            child: Stack(
               children: <Widget> [
                 Container(
+                  width:140,
+                  height: 160,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Loading(),
+                              ),
+                          ),
+                          Center(
+                            child: FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: category.image),
+                          )
 
-                    child: Padding(padding: EdgeInsets.all(4),
-                      child: Image.asset("images/${categoriesList[index].image}", width: 60,),)
+                        ],
+                      ),
+
+                    )
                 ),
-                SizedBox(height: 5,),
-                CustomText(text: categoriesList[index].name, size: 16,)
+                Container(
+                          width: 140,
+                          height: 160,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Colors.black.withOpacity(0.6),
+                                  Colors.black.withOpacity(0.6),
+                                  Colors.black.withOpacity(0.6),
+                                  Colors.black.withOpacity(0.4),
+                                  Colors.black.withOpacity(0.1),
+                                  Colors.black.withOpacity(0.05),
+                                  Colors.black.withOpacity(0.025),
+                                ],
+                              )),
+                        ),
+                         Positioned.fill(
+                            child: Align(
+                                alignment: Alignment.center,
+                                child: CustomText(text: category.name, color: white, size: 26, weight: FontWeight.w300,)))
 
               ],
             ),
           );
-        },
-
-      ),
-    );
   }
 }

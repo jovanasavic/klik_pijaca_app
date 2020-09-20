@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:klik_pijaca_app/src/models/category.dart';
 
 class ProductModel{
 
@@ -11,25 +10,28 @@ class ProductModel{
   static const CATEGORY = "category";
   static const FEATURED = "featured";
   static const RATES = "rates";
+  static const DESCRIPTION =  "description";
 
-  String _id;
+  int _id;
   String _name;
   String _image;
   double _rating;
-  double _price;
+  int _price;
   String _category;
   bool _featured;
   int _rates;
+  String _desctiption;
 
   //getters
-  String get id => _id;
+  int get id => _id;
   String get name => _name;
   String get image => _image;
   double get rating => _rating;
-  double get price => _price;
+  int get price => _price;
   String get category => _category;
   bool get featured => _featured;
   int get rates => _rates;
+  String get description => _desctiption;
 
   ProductModel.fromSnapShot(DocumentSnapshot snapshot){
     _id = snapshot.data()[ID];
@@ -40,5 +42,6 @@ class ProductModel{
     _category = snapshot.data()[CATEGORY];
     _featured = snapshot.data()[FEATURED];
     _rates = snapshot.data()[RATES];
+    _desctiption = snapshot.data()[DESCRIPTION];
   }
 }

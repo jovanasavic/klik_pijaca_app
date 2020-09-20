@@ -1,5 +1,4 @@
 import 'package:klik_pijaca_app/src/helpers/style.dart';
-import 'package:klik_pijaca_app/src/models/products.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 

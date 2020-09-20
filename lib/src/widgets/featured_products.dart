@@ -1,129 +1,143 @@
 import 'package:klik_pijaca_app/src/helpers/screen_navigation.dart';
 import 'package:klik_pijaca_app/src/models/products.dart';
+import 'package:klik_pijaca_app/src/providers/product.dart';
 import 'package:klik_pijaca_app/src/screens/details.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../helpers/style.dart';
 import 'custom_text.dart';
-
-List<ProductModel> productsList = [];
+import 'loading.dart';
 
 class Featured extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final productProvider = Provider.of<ProductProvider>(context);
+
+    return  Container(
       height: 220,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: productsList.length,
-          itemBuilder: (context, index) {
+          itemCount: productProvider.products.length,
+          itemBuilder: (_, index) {
             return Padding(
-              padding: EdgeInsets.all(8),
-              child: GestureDetector(
-                onTap: (){
-                  changeScreen(context, Details(product: productsList[index]));
-                },
-                child: Container(
-                  height: 220,
-                  width: 200,
-                  decoration: BoxDecoration(color: white, boxShadow: [
-                    BoxShadow(
-                        color: green, offset: Offset(1, 1), blurRadius: 4)
-                  ]),
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset("images/${productsList[index].image}", height: 140),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CustomText(text: productsList[index].name),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: grey,
-                                        offset: Offset(1, 1),
-                                        blurRadius: 4)
-                                  ]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child:
-//                                productsList[index].wishList ?
-                                Icon(
-                                  Icons.favorite,
-                                  size: 18,
-                                  color: Colors.red,
-                                )
-//                                    :  Icon(
-//                                  Icons.favorite_border,
-//                                  size: 18,
-//                                  color: Colors.red,
-//                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                padding: EdgeInsets.fromLTRB(12, 14, 16, 12),
+                child: GestureDetector(
+                  onTap: (){
+                   changeScreen(_,Details(product: productProvider.products[index],));
+                  },
+                  child: Container(
+                    height: 220,
+                    width: 200,
+                    decoration: BoxDecoration(color: white, 
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey[300],
+                          offset: Offset(-2, -1),
+                          blurRadius: 5),
+                    ]),
+                    child: Column(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                          child: Stack(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: CustomText(
-                                    text: productsList[index].rating.toString(), color: grey, size: 14),
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                                size: 16,
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                                size: 16,
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                                size: 16,
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                                size: 16,
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.grey,
-                                size: 16,
-                              ),
+                              Positioned.fill(child: Align(
+                                alignment: Alignment.center,
+                                child: Loading(),
+                              )),
+                              Center(
+                                child: FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: productProvider.products[index].image, height: 126,),
+                              )
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right:8.0),
-                            child: CustomText(text: "RSD" + productsList[index].price.toString()),
-                          )
-                        ],
-                      )
-                    ],
+                        ),
+                        Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomText(
+                                text: productProvider.products[index].name ?? "id null",
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                    color: white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[300],
+                                          offset: Offset(1, 1),
+                                          blurRadius: 4),
+                                    ]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Icon(
+                                    Icons.favorite_border,
+                                    color: green,
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: CustomText(
+                                    text: productProvider.products[index].rating.toString(),
+                                    color: grey,
+                                    size: 14.0,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: green,
+                                  size: 16,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: green,
+                                  size: 16,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: green,
+                                  size: 16,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: grey,
+                                  size: 16,
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right:8.0),
+                              child: CustomText(text: "rsd" + productProvider.products[index].price.toString(),weight: FontWeight.bold,),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            );
+                ));
           }),
     );
   }
 }
-

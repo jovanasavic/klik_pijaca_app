@@ -1,7 +1,6 @@
 import 'package:klik_pijaca_app/src/helpers/style.dart';
 import 'package:klik_pijaca_app/src/models/products.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 
 class Details extends StatefulWidget {
@@ -20,35 +19,40 @@ class _DetailsState extends State<Details> {
       backgroundColor: white,
       body: SafeArea(
         child: Column(
-          children:<Widget> [
+          children: <Widget>[
             Container(
               height: 300,
               child: Stack(
-                children:<Widget> [
+                children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left :50.0),
+                    padding: const EdgeInsets.only(left: 50.0),
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(widget.product.image),
-                      radius:150
-                    
-                    ),
-                  ), 
+                        backgroundImage: NetworkImage(widget.product.image),
+                        radius: 150),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:<Widget>  [
-                      IconButton(icon: Icon(Icons.arrow_back, color: black,), onPressed: (){
-                        Navigator.pop(context);
-                      }),
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: black,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
                       Padding(
-                        padding: const EdgeInsets.only(right:8.0),
+                        padding: const EdgeInsets.only(right: 8.0),
                         child: Stack(
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Stack(
                                 children: [
-                                  IconButton(icon: Icon(Icons.shopping_bag, color: black, size:35), onPressed: (){}),
-
+                                  IconButton(
+                                      icon: Icon(Icons.shopping_bag,
+                                          color: black, size: 35),
+                                      onPressed: () {}),
                                 ],
                               ),
                             ),
@@ -61,21 +65,24 @@ class _DetailsState extends State<Details> {
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
-                                            color:grey,
-                                            offset: Offset(2,3),
-                                            blurRadius: 3
-                                        )
-                                      ]
-                                  ),
+                                            color: grey,
+                                            offset: Offset(2, 3),
+                                            blurRadius: 3)
+                                      ]),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:4, right: 4),
-                                    child: CustomText(text: "2", color:green,size: 18, weight: FontWeight.bold,),
+                                    padding: const EdgeInsets.only(
+                                        left: 4, right: 4),
+                                    child: CustomText(
+                                      text: "2",
+                                      color: green,
+                                      size: 18,
+                                      weight: FontWeight.bold,
+                                    ),
                                   )),
                             )
                           ],
                         ),
                       ),
-
                     ],
                   ),
                   Positioned(
@@ -83,16 +90,14 @@ class _DetailsState extends State<Details> {
                       bottom: 50,
                       child: Container(
                         decoration: BoxDecoration(
-                          color:white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color:grey,
-                              offset: Offset(2,1),
-                              blurRadius: 3
-                            )
-                          ]
-                        ),
+                            color: white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grey,
+                                  offset: Offset(2, 1),
+                                  blurRadius: 3)
+                            ]),
                         child: Padding(
                           padding: const EdgeInsets.all(6),
                           child: Icon(
@@ -101,14 +106,21 @@ class _DetailsState extends State<Details> {
                             color: black,
                           ),
                         ),
-                      )
-                  )
+                      ))
                 ],
               ),
             ),
-            CustomText(text: widget.product.name, size: 26, weight: FontWeight.bold,),
-            CustomText(text: "RSD" + widget.product.price.toString(), size: 18, weight: FontWeight.w400, color: green,),
-
+            CustomText(
+              text: widget.product.name,
+              size: 26,
+              weight: FontWeight.bold,
+            ),
+            CustomText(
+              text: "RSD" + widget.product.price.toString(),
+              size: 18,
+              weight: FontWeight.w400,
+              color: green,
+            ),
             SizedBox(
               height: 15,
             ),
@@ -117,38 +129,49 @@ class _DetailsState extends State<Details> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: IconButton(icon: Icon(Icons.remove, size:36,), onPressed: (){
-                     if(quantity != 1){
-                      setState(() {
-                        quantity -= 1;
-                      });
-                    }
-                  }),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.remove,
+                        size: 36,
+                      ),
+                      onPressed: () {
+                        if (quantity != 1) {
+                          setState(() {
+                            quantity -= 1;
+                          });
+                        }
+                      }),
                 ),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: () {},
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red
-                    ),
+                    decoration: BoxDecoration(color: Colors.red),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(28,12,28,12),
-                      child: CustomText(text: "Add $quantity To Cart",color: white, size: 24 , weight: FontWeight.w600,),
+                      padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
+                      child: CustomText(
+                        text: "Add $quantity To Cart",
+                        color: white,
+                        size: 24,
+                        weight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: IconButton(icon: Icon(Icons.add, size:36,), onPressed: (){
-                     setState(() {
-                      quantity += 1;
-                    });
-                  }),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        size: 36,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          quantity += 1;
+                        });
+                      }),
                 ),
               ],
             )
-
-
           ],
         ),
       ),

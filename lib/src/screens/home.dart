@@ -1,5 +1,7 @@
 import 'package:klik_pijaca_app/src/helpers/screen_navigation.dart';
 import 'package:klik_pijaca_app/src/helpers/style.dart';
+import 'package:klik_pijaca_app/src/models/category.dart';
+import 'package:klik_pijaca_app/src/providers/app.dart';
 import 'package:klik_pijaca_app/src/providers/product.dart';
 import 'package:klik_pijaca_app/src/providers/user.dart';
 import 'package:klik_pijaca_app/src/providers/category.dart';
@@ -8,6 +10,7 @@ import 'package:klik_pijaca_app/src/widgets/categories.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
 import 'package:klik_pijaca_app/src/widgets/featured_products.dart';
 import 'package:flutter/material.dart';
+import 'package:klik_pijaca_app/src/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
 import 'category.dart';
@@ -22,6 +25,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final app = Provider.of<AppProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final categoryProvider = Provider.of<CategoryProvider>(context);
     final productProvider = Provider.of<ProductProvider>(context);
@@ -102,10 +106,18 @@ class _HomeState extends State<Home> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: app.isLoading ? Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget> [
+            Loading()
+          ],
+        ),
+      ):
+       SafeArea(
         child: ListView(
           children: <Widget>[
-            Container(
+            Container(  
               decoration: BoxDecoration(
                 color: Colors.blueGrey,
                 borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20))
@@ -138,9 +150,12 @@ class _HomeState extends State<Home> {
         itemBuilder: (context,index){
          return GestureDetector(
                       onTap: ()async{
+                        //app.changeLoadingState();
                         await productProvider.loadProductsByCategory(categoryName: categoryProvider.categories[index].name);
                         changeScreen(context, CategoryScreen(categoryModel: categoryProvider.categories[index],));
+
                       },
+
                       child: Category(
                         category: categoryProvider.categories[index],
                       ));

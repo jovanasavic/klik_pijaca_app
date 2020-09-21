@@ -1,11 +1,20 @@
+
 import 'package:flutter/material.dart';
 import 'package:klik_pijaca_app/src/helpers/style.dart';
-
+import 'package:klik_pijaca_app/src/models/products.dart';
+import 'package:klik_pijaca_app/src/providers/product.dart';
+import 'package:provider/provider.dart';
 import 'custom_text.dart';
 
 class ProductWidget extends StatelessWidget {
+  final ProductModel product;
+
+  const ProductWidget({Key key, this.product}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+
+
     return  Padding(
       padding: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 10),
       child: Container(
@@ -31,7 +40,7 @@ class ProductWidget extends StatelessWidget {
                   bottomLeft: Radius.circular(20),
                   topLeft: Radius.circular(20),
                 ),
-                child: Image.asset("images/food.jpg", fit: BoxFit.fill,),
+                child: Image.network(product.image, fit: BoxFit.fill,),
               ),
             ),
             Expanded(
@@ -44,7 +53,7 @@ class ProductWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CustomText(
-                          text: "Pancakes",
+                          text: product.name,
                         ),
                       ),
                       Padding(
@@ -96,7 +105,7 @@ class ProductWidget extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: CustomText(
-                              text: "4.3",
+                              text: product.rating.toString(),
                               color: grey,
                               size: 14.0,
                             ),
@@ -128,7 +137,7 @@ class ProductWidget extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right:8.0),
-                        child: CustomText(text: "\$3.55",weight: FontWeight.bold,),
+                        child: CustomText(text: "RSD" + product.price.toString(),weight: FontWeight.bold,),
                       ),
                     ],
                   ),

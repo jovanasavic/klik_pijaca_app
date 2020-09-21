@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:klik_pijaca_app/src/providers/app.dart';
 import 'package:klik_pijaca_app/src/providers/product.dart';
 import 'package:klik_pijaca_app/src/providers/user.dart';
 import 'package:klik_pijaca_app/src/providers/category.dart';
@@ -13,6 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider.value(value: AppProvider()),
     ChangeNotifierProvider.value(value: UserProvider.initialize()),
     ChangeNotifierProvider.value(value: CategoryProvider.initialize()),
     ChangeNotifierProvider.value(value: ProductProvider.initialize())

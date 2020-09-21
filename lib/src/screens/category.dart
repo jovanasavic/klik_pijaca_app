@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klik_pijaca_app/src/helpers/screen_navigation.dart';
 import 'package:klik_pijaca_app/src/helpers/style.dart';
 import 'package:klik_pijaca_app/src/models/category.dart';
 import 'package:klik_pijaca_app/src/providers/product.dart';
@@ -7,6 +8,8 @@ import 'package:klik_pijaca_app/src/widgets/loading.dart';
 import 'package:klik_pijaca_app/src/widgets/product.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import 'details.dart';
 
 
 class CategoryScreen extends StatelessWidget {
@@ -98,9 +101,11 @@ class CategoryScreen extends StatelessWidget {
                 .map((item) => GestureDetector(
               onTap: () {
 
-//                changeScreen(context, RestaurantScreen(restaurantModel: item,));
+               changeScreen(context, Details(product:item));
               },
-              child: ProductWidget(),
+              child: ProductWidget(
+                product: item,
+              ),
             ))
                 .toList(),
           )

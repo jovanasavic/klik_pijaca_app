@@ -196,9 +196,109 @@ class _CartScreenState extends State<CartScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20), color: green),
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (userProvider.userModel.totalCartPrice == 0) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0)), //this right here
+                              child: Container(
+                                height: 200,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Your cart is emty',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                      return;
+                    }
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0)), //this right here
+                            child: Container(
+                              height: 200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'You will be charged RSD' +
+                                              userProvider
+                                                  .userModel.totalCartPrice
+                                                  .toString(),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 320.0,
+                                      child: RaisedButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          "ACCEPT",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 320.0,
+                                      child: RaisedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "REJECT",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          color: Colors.red),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  },
                   child: CustomText(
-                    text: "Pay now",
+                    text: "check out",
                     color: white,
                     weight: FontWeight.normal,
                   ),

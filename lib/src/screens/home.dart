@@ -4,7 +4,7 @@ import 'package:klik_pijaca_app/src/providers/app.dart';
 import 'package:klik_pijaca_app/src/providers/product.dart';
 import 'package:klik_pijaca_app/src/providers/user.dart';
 import 'package:klik_pijaca_app/src/providers/category.dart';
-import 'package:klik_pijaca_app/src/screens/bag.dart';
+import 'package:klik_pijaca_app/src/screens/cart.dart';
 import 'package:klik_pijaca_app/src/screens/product_search.dart';
 import 'package:klik_pijaca_app/src/widgets/categories.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
@@ -37,7 +37,11 @@ class _HomeState extends State<Home> {
         actions: <Widget>[
           Stack(
             children: <Widget>[
-              IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {}),
+              IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    changeScreen(context, CartScreen());
+                  }),
               Positioned(
                   top: 13,
                   right: 13,
@@ -96,7 +100,7 @@ class _HomeState extends State<Home> {
             ),
             ListTile(
               onTap: () {
-                changeScreen(context, ShoppingBag());
+                changeScreen(context, CartScreen());
               },
               leading: Icon(Icons.shopping_cart),
               title: CustomText(text: "Cart"),

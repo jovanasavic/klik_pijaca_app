@@ -1,3 +1,4 @@
+import 'package:klik_pijaca_app/src/helpers/order.dart';
 import 'package:klik_pijaca_app/src/helpers/style.dart';
 import 'package:klik_pijaca_app/src/providers/app.dart';
 import 'package:klik_pijaca_app/src/providers/user.dart';
@@ -5,6 +6,7 @@ import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:klik_pijaca_app/src/widgets/loading.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final _key = GlobalKey<ScaffoldState>();
+  OrderServices _orderServices = OrderServices();
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +79,6 @@ class _CartScreenState extends State<CartScreen> {
           : ListView.builder(
               itemCount: userProvider.userModel.cart.length,
               itemBuilder: (_, index) {
-                int totalQuantity = 0;
-                int priceSum = 0;
-
-                print("the price is" +
-                    userProvider.userModel.cart[index]["price"].toString());
-                print("the quantity is" +
-                    userProvider.userModel.cart[index]["quantity"].toString());
-
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
@@ -162,7 +157,7 @@ class _CartScreenState extends State<CartScreen> {
                                     return;
                                   } else {
                                     _key.currentState.showSnackBar(
-                                        SnackBar(content: Text("removed")));
+                                        SnackBar(content: Text("not removed")));
                                     app.changeLoadingState();
                                   }
                                 })
@@ -269,7 +264,40 @@ class _CartScreenState extends State<CartScreen> {
                                     SizedBox(
                                       width: 320.0,
                                       child: RaisedButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          var uuid = Uuid();
+                                          String id = uuid.v4();
+                                          _orderServices.createOrder(
+                                              userProvider.user.uid,
+                                              id,
+                                              "some random desc",
+                                              "complete",
+                                              userProvider
+                                                  .userModel.totalCartPrice,
+                                              userProvider.userModel.cart);
+
+                                          for (Map cartItem
+                                              in userProvider.userModel.cart) {
+                                            bool value = await userProvider
+                                                .removeFromCart(
+                                                    cartItem: cartItem);
+                                            if (value) {
+                                              userProvider.reloadUserModel();
+                                              print("Item added to cart");
+                                              _key.currentState.showSnackBar(
+                                                  SnackBar(
+                                                      content: Text(
+                                                          "Removed from Cart!")));
+                                            } else {
+                                              print("ITEM WAS NOT REMOVED");
+                                            }
+                                          }
+                                          _key.currentState.showSnackBar(
+                                              SnackBar(
+                                                  content:
+                                                      Text("Order created!")));
+                                          Navigator.pop(context);
+                                        },
                                         child: Text(
                                           "ACCEPT",
                                           style: TextStyle(color: Colors.white),

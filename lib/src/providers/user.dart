@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:klik_pijaca_app/src/helpers/order.dart';
 import 'package:klik_pijaca_app/src/helpers/user.dart';
 import 'package:klik_pijaca_app/src/models/cart_item.dart';
+import 'package:klik_pijaca_app/src/models/order.dart';
 import 'package:klik_pijaca_app/src/models/products.dart';
 import 'package:klik_pijaca_app/src/models/user.dart';
 import 'package:uuid/uuid.dart';
@@ -17,12 +19,17 @@ class UserProvider with ChangeNotifier {
   Status _status = Status.Uninitialized;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   UserServices _userServicse = UserServices();
+  OrderServices _orderServices = OrderServices();
   UserModel _userModel;
 
 //  getter
   UserModel get userModel => _userModel;
   Status get status => _status;
   User get user => _user;
+
+  //public variable
+
+  List<OrderModel> orders = [];
 
   final formkey = GlobalKey<FormState>();
 
@@ -139,6 +146,11 @@ class UserProvider with ChangeNotifier {
       print("THE ERROR ${e.toString()}");
       return false;
     }
+  }
+
+  getOrders() async {
+    orders = await _orderServices.getUserOrders(userId: _user.uid);
+    notifyListeners();
   }
 
   Future<bool> removeFromCart({Map cartItem}) async {

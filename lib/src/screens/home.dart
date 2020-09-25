@@ -5,6 +5,7 @@ import 'package:klik_pijaca_app/src/providers/product.dart';
 import 'package:klik_pijaca_app/src/providers/user.dart';
 import 'package:klik_pijaca_app/src/providers/category.dart';
 import 'package:klik_pijaca_app/src/screens/cart.dart';
+import 'package:klik_pijaca_app/src/screens/order.dart';
 import 'package:klik_pijaca_app/src/screens/product_search.dart';
 import 'package:klik_pijaca_app/src/widgets/categories.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
@@ -104,6 +105,14 @@ class _HomeState extends State<Home> {
               },
               leading: Icon(Icons.shopping_cart),
               title: CustomText(text: "Cart"),
+            ),
+            ListTile(
+              onTap: () async {
+                await userProvider.getOrders();
+                changeScreen(context, OrderScreen());
+              },
+              leading: Icon(Icons.bookmark_border),
+              title: CustomText(text: "Orders"),
             ),
           ],
         ),

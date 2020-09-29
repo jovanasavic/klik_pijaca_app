@@ -122,7 +122,8 @@ class UserProvider with ChangeNotifier {
         "image": product.image,
         "productId": product.id,
         "price": product.price,
-        "quantity": quantity
+        "quantity": quantity,
+        "totalSales": product.price * quantity
       };
       // for (Map item in cart) {
       //   if (item["productId"] == cartItem["productId"]) {

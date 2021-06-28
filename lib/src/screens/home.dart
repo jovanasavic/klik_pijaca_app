@@ -7,6 +7,7 @@ import 'package:klik_pijaca_app/src/providers/category.dart';
 import 'package:klik_pijaca_app/src/screens/cart.dart';
 import 'package:klik_pijaca_app/src/screens/order.dart';
 import 'package:klik_pijaca_app/src/screens/product_search.dart';
+import 'package:klik_pijaca_app/src/widgets/bottom_navigation_icons.dart';
 import 'package:klik_pijaca_app/src/widgets/categories.dart';
 import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
 import 'package:klik_pijaca_app/src/widgets/featured_products.dart';
@@ -30,299 +31,275 @@ class _HomeState extends State<Home> {
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        elevation: 0.5,
-        backgroundColor: Colors.blueGrey,
-        title: CustomText(text: "Klik pijaca", color: Colors.white),
-        actions: <Widget>[
-          Stack(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: AppBar(
+              iconTheme: IconThemeData(color: Colors.green[900]),
+              elevation: 0.0,
+              backgroundColor: Colors.white,
+              title: Padding(
+                padding: const EdgeInsets.all(60.0),
+                child: Image.asset("images/logoAppBar.png"),
+              ),
+              actions: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    IconButton(
+                        icon: new Image.asset('images/cartIcon.png'),
+                        onPressed: () {
+                          changeScreen(context, CartScreen());
+                        }),
+                  ],
+                ),
+              ],
+            )),
+        drawer: Drawer(
+          child: ListView(
             children: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.shopping_cart),
-                  onPressed: () {
-                    changeScreen(context, CartScreen());
-                  }),
-              Positioned(
-                  top: 13,
-                  right: 13,
-                  child: Container(
-                      height: 10,
-                      width: 10,
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(20)))),
+//            Image.asset("images/logo.png"),
+              UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          'https://firebasestorage.googleapis.com/v0/b/klikpijacaapp-3072c.appspot.com/o/logo.png?alt=media&token=4d732787-a583-497c-8bca-66b04124f63c'),
+                    ),
+                    color: Colors.white),
+                // accountName: Padding(
+                //   padding: const EdgeInsets.only(right: 20.0, top: 32.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       CustomText(
+                //         text: userProvider.userModel?.name,
+                //         color: Colors.green[900],
+                //         weight: FontWeight.bold,
+                //         size: 16,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                accountEmail: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomText(
+                        text: userProvider.userModel?.email,
+                        color: Colors.green[900],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: Icon(Icons.home),
+                title: CustomText(text: "Home"),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: Icon(Icons.person),
+                title: CustomText(text: "Account"),
+              ),
+              ListTile(
+                onTap: () {
+                  changeScreen(context, CartScreen());
+                },
+                leading: Icon(Icons.shopping_cart),
+                title: CustomText(text: "Cart"),
+              ),
+              ListTile(
+                onTap: () async {
+                  await userProvider.getOrders();
+                  changeScreen(context, OrderScreen());
+                },
+                leading: Icon(Icons.bookmark_border),
+                title: CustomText(text: "Orders"),
+              ),
             ],
           ),
-          Stack(
-            children: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.notifications_none), onPressed: () {}),
-              Positioned(
-                top: 13,
-                right: 13,
-                child: Container(
-                  height: 10,
-                  width: 10,
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(20)),
+        ),
+        backgroundColor: Colors.white,
+        body: app.isLoading
+            ? Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[Loading()],
                 ),
               )
-            ],
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Colors.blueGrey),
-              accountName: CustomText(
-                text: userProvider.userModel?.name,
-                color: Colors.white,
-                weight: FontWeight.bold,
-                size: 18,
-              ),
-              accountEmail: CustomText(
-                text: userProvider.userModel?.email,
-                color: Colors.white,
-              ),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: Icon(Icons.home),
-              title: CustomText(text: "Home"),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: Icon(Icons.person),
-              title: CustomText(text: "Account"),
-            ),
-            ListTile(
-              onTap: () {
-                changeScreen(context, CartScreen());
-              },
-              leading: Icon(Icons.shopping_cart),
-              title: CustomText(text: "Cart"),
-            ),
-            ListTile(
-              onTap: () async {
-                await userProvider.getOrders();
-                changeScreen(context, OrderScreen());
-              },
-              leading: Icon(Icons.bookmark_border),
-              title: CustomText(text: "Orders"),
-            ),
-          ],
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: app.isLoading
-          ? Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[Loading()],
-              ),
-            )
-          : SafeArea(
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey,
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(20),
-                            bottomLeft: Radius.circular(20))),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, left: 8.0, right: 8.0, bottom: 20.0),
+            : SafeArea(
+                child: ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: ListTile(
-                          leading: Icon(Icons.search, color: Colors.green),
-                          title: TextField(
-                            textInputAction: TextInputAction.search,
-                            onSubmitted: (pattern) async {
-                              app.changeLoadingState();
-                              await productProvider.search(
-                                  productName: pattern);
-                              changeScreen(context, ProductSearchScreen());
-                              app.changeLoadingState();
-                            },
-                            decoration: InputDecoration(
-                              hintText: ("Find food that you want..."),
-                              border: InputBorder.none,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(30),
+                                bottomLeft: Radius.circular(30))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 0.0, left: 8.0, right: 8.0, bottom: 20.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 7,
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ListTile(
+                              leading:
+                                  Icon(Icons.search, color: Colors.green[900]),
+                              title: TextField(
+                                textInputAction: TextInputAction.search,
+                                onSubmitted: (pattern) async {
+                                  app.changeLoadingState();
+                                  await productProvider.search(
+                                      productName: pattern);
+                                  changeScreen(context, ProductSearchScreen());
+                                  app.changeLoadingState();
+                                },
+                                decoration: InputDecoration(
+                                  hintText: ("Pretraži..."),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                              trailing: Icon(Icons.filter_list,
+                                  color: Colors.green[900]),
                             ),
                           ),
-                          trailing:
-                              Icon(Icons.filter_list, color: Colors.green),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    height: 110,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categoryProvider.categories.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () async {
-                              //app.changeLoadingState();
-                              await productProvider.loadProductsByCategory(
-                                  categoryName:
-                                      categoryProvider.categories[index].name);
-                              changeScreen(
-                                  context,
-                                  CategoryScreen(
-                                    categoryModel:
-                                        categoryProvider.categories[index],
-                                  ));
-                            },
-                            child: Category(
-                              category: categoryProvider.categories[index],
-                            ));
-                      },
+                    // SizedBox(
+                    //   height: 5,
+                    // ),
+                    Container(
+                      height: 110,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: categoryProvider.categories.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: () async {
+                                //app.changeLoadingState();
+                                await productProvider.loadProductsByCategory(
+                                    categoryName: categoryProvider
+                                        .categories[index].name);
+                                changeScreen(
+                                    context,
+                                    CategoryScreen(
+                                      categoryModel:
+                                          categoryProvider.categories[index],
+                                    ));
+                              },
+                              child: Category(
+                                category: categoryProvider.categories[index],
+                              ));
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        CustomText(
-                          text: "Featured",
-                          size: 20,
-                          color: grey,
-                        ),
-                        CustomText(
-                          text: "see all",
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          CustomText(
+                            text: "Preporučeni proizvodi",
+                            size: 14,
+                            color: grey,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Featured(),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: CustomText(
+                          text: "Sezonske akcije",
                           size: 14,
-                          color: green,
-                        ),
-                      ],
+                          color: Colors.grey),
                     ),
-                  ),
-                  Featured(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomText(
-                        text: "Recipes", size: 20, color: Colors.grey),
-                  ),
 
-                  // we are using stack so we can add some new widgets on top of the first one
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.asset("images/smoothie.jpg")),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Colors.white,
-                                ),
+                    // we are using stack so we can add some new widgets on top of the first one
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.6),
+                                spreadRadius: 2,
+                                blurRadius: 8,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
                               ),
-                              Container(
-                                width: 50,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Icon(Icons.star,
-                                            color: Colors.yellow[900],
-                                            size: 20)),
-                                    Text("4.5")
-                                  ],
-                                ),
-                              )
-                            ],
+                            ], borderRadius: BorderRadius.circular(40)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.asset("images/akcija.jpg")),
+                            ),
                           ),
-                        ),
-
-                        //gradient
-
-                        Positioned.fill(
-                            child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20)),
-                                gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    colors: [
-                                      Colors.black.withOpacity(0.8),
-                                      Colors.black.withOpacity(0.7),
-                                      Colors.black.withOpacity(0.6),
-                                      Colors.black.withOpacity(0.6),
-                                      Colors.black.withOpacity(0.4),
-                                      Colors.black.withOpacity(0.1),
-                                      Colors.black.withOpacity(0.05),
-                                      Colors.black.withOpacity(0.025),
-                                    ])),
-                          ),
-                        )),
-                      ],
-                    ),
-                  )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+        bottomNavigationBar: Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+            child: BottomAppBar(
+              color: Color.fromRGBO(0, 86, 45, 1),
+              child: new Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  IconButton(
+                    icon: new Image.asset('images/home.png'),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: new Image.asset('images/categories.png'),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: new Image.asset('images/chart.png'),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: new Image.asset('images/wishlist.png'),
+                    onPressed: () {},
+                  ),
                 ],
               ),
             ),
-//      bottomNavigationBar: Container(
-//        height: 70,
-//        color: white,
-//        child: Row(
-//          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//          children: <Widget> [
-//            BottomNavIcon(
-//                image:"home.png",
-//                name:"Home"),
-//            BottomNavIcon(
-//                image:"message.png",
-//                name: "Home"),
-//            BottomNavIcon(
-//                image: "gift.png",
-//                name:"Bag",
-//                onTap: (){
-//                  changeScreen(context, ShoppingBag());
-//                },),
-//            BottomNavIcon(
-//                image:"heartt.png",
-//                name:"Home"),
-//          ],
-//        ),
-//      ),
-    );
+          ),
+        ));
   }
 }

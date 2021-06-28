@@ -31,6 +31,7 @@ dependencies:
   transparent_image: ^1.0.0
   flutter_spinkit: ^4.1.2+1
   uuid: ^2.2.2
+  splashscreen: ^1.2.0
 
 
 
@@ -42,6 +43,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^0.1.9
+
+flutter_native_splash:
+  image: assets/images/splash.jpg
+  color: "42a5f5"
+  fit: BoxFit.cover,
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -69,7 +77,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Sketch_Block
+      fonts:
+        - asset: fonts/Sketch_Block.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

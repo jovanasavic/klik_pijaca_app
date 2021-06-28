@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:klik_pijaca_app/src/helpers/screen_navigation.dart';
 import 'package:klik_pijaca_app/src/helpers/style.dart';
 import 'package:klik_pijaca_app/src/models/category.dart';
+import 'package:klik_pijaca_app/src/providers/app.dart';
 import 'package:klik_pijaca_app/src/providers/product.dart';
-import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
-import 'package:klik_pijaca_app/src/widgets/loading.dart';
+import 'package:klik_pijaca_app/src/screens/product_search.dart';
 import 'package:klik_pijaca_app/src/widgets/product.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'details.dart';
-
 
 class CategoryScreen extends StatelessWidget {
   final CategoryModel categoryModel;
@@ -20,78 +19,46 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+    final app = Provider.of<AppProvider>(context);
 
     return Scaffold(
       body: SafeArea(
           child: ListView(
         children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Positioned.fill(
-                  child: Align(
-                alignment: Alignment.center,
-                child: Loading(),
-              )),
-              ClipRRect(
-
-//                borderRadius: BorderRadius.only(
-//                  bottomLeft: Radius.circular(30),
-//                  bottomRight: Radius.circular(30),
-//                ),
-                child: FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: categoryModel.image,
-                  height: 220,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[],
+          ),
+          ListTile(
+            leading: IconButton(
+                icon: Icon(
+                  Icons.keyboard_backspace,
+                  color: Colors.green[900],
                 ),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+            title: TextField(
+              textInputAction: TextInputAction.search,
+              onSubmitted: (pattern) async {
+                app.changeLoadingState();
+                await productProvider.search(productName: pattern);
+                changeScreen(context, ProductSearchScreen());
+                app.changeLoadingState();
+              },
+              decoration: InputDecoration(
+                hintText: ("Pretraži..."),
+                border: InputBorder.none,
               ),
-              Container(
-                height: 220,
-                decoration: BoxDecoration(
-//                    borderRadius: BorderRadius.only(
-//                      bottomLeft: Radius.circular(30),
-//                      bottomRight: Radius.circular(30),
-//                    ),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.6),
-                        Colors.black.withOpacity(0.6),
-                        Colors.black.withOpacity(0.6),
-                        Colors.black.withOpacity(0.4),
-                        Colors.black.withOpacity(0.1),
-                        Colors.black.withOpacity(0.05),
-                        Colors.black.withOpacity(0.025),
-                      ],
-                    )),
-              ),
-              Positioned.fill(
-                bottom: 40,
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CustomText(text: categoryModel.name, color: white, size: 26, weight: FontWeight.w300,))),
-              Positioned.fill(
-                  top: 5,
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: GestureDetector(
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: black.withOpacity(0.2)
-                              ),
-                              child: Icon(Icons.close, color: white,)),
-                        ),
-                      ),)),
-              
-            ],
+            ),
+            trailing: Icon(Icons.search, color: Colors.green[900]),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 2.0),
+            child: FadeInImage.memoryNetwork(
+                height: 60,
+                placeholder: kTransparentImage,
+                image: categoryModel.imageCover),
           ),
           SizedBox(
             height: 10,
@@ -99,19 +66,16 @@ class CategoryScreen extends StatelessWidget {
           Column(
             children: productProvider.productsByCategory
                 .map((item) => GestureDetector(
-              onTap: () {
-
-               changeScreen(context, Details(product:item));
-              },
-              child: ProductWidget(
-                product: item,
-              ),
-            ))
+                      onTap: () {
+                        changeScreen(context, Details(product: item));
+                      },
+                      child: ProductWidget(
+                        product: item,
+                      ),
+                    ))
                 .toList(),
           )
-
         ],
-
       )),
     );
   }

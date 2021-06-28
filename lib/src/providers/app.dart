@@ -22,21 +22,7 @@ class AppProvider with ChangeNotifier {
   }
 
   getTotalPrice() {
-    print("the total sum is:" + priceSum.toString());
-    print("the total sum is:" + priceSum.toString());
-    print("the total sum is:" + priceSum.toString());
-    print("the total sum is:" + priceSum.toString());
-    print("the quantity sum is:" + quantitySum.toString());
-    print("the quantity sum is:" + quantitySum.toString());
-    print("the quantity sum is:" + quantitySum.toString());
-    print("the quantity sum is:" + quantitySum.toString());
-
     totalPrice = priceSum * quantitySum;
-    print("the SUM TOTALTOTALTOTAL sum is:" + totalPrice.toString());
-    print("the SUM TOTALTOTALTOTAL sum is:" + totalPrice.toString());
-    print("the SUM TOTALTOTALTOTAL sum is:" + totalPrice.toString());
-    print("the SUM TOTALTOTALTOTAL sum is:" + totalPrice.toString());
-
     notifyListeners();
   }
 }

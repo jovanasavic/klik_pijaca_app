@@ -15,7 +15,7 @@ class Featured extends StatelessWidget {
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
-      height: 220,
+      height: 260,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: productProvider.products.length,
@@ -44,6 +44,29 @@ class Featured extends StatelessWidget {
                         ]),
                     child: Column(
                       children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                productProvider.products[index].name,
+                                style: TextStyle(
+                                        fontFamily: 'Sketch_Block',
+                                        fontSize: 16,
+                                        color: Color.fromRGBO(0, 86, 45, 1)) ??
+                                    "id null",
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: IconButton(
+                                icon: new Image.asset('images/like2.png'),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ],
+                        ),
                         ClipRRect(
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
@@ -69,86 +92,91 @@ class Featured extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CustomText(
-                                text: productProvider.products[index].name ??
-                                    "id null",
-                              ),
-                            ),
-                            Padding(
                               padding: EdgeInsets.all(8),
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: white,
                                     boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey[300],
-                                          offset: Offset(1, 1),
-                                          blurRadius: 4),
+                                      // BoxShadow(
+                                      //     //color: Colors.grey[300],
+                                      //     offset: Offset(1, 1),
+                                      //     blurRadius: 4),
                                     ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Icon(
-                                    Icons.favorite_border,
-                                    color: green,
-                                    size: 18,
-                                  ),
-                                ),
                               ),
                             )
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: CustomText(
-                                    text: productProvider.products[index].rating
-                                        .toString(),
-                                    color: grey,
-                                    size: 14.0,
+                        Container(
+                          color: Color.fromRGBO(0, 86, 45, 1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 8.0),
+                                  //   child: CustomText(
+                                  //     text: productProvider.products[index].rating
+                                  //         .toString(),
+                                  //     color: grey,
+                                  //     size: 14.0,
+                                  //   ),
+                                  // ),
+                                  SizedBox(
+                                    width: 2,
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: green,
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: green,
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: green,
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: grey,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: CustomText(
-                                text: "rsd" +
-                                    productProvider.products[index].price
-                                        .toString(),
-                                weight: FontWeight.bold,
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 16,
+                                  ),
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 16,
+                                  ),
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 16,
+                                  ),
+                                  Icon(
+                                    Icons.star,
+                                    color: white,
+                                    size: 16,
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(0, 86, 45, 1),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              boxShadow: []),
+                          //  color: Colors.redAccent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                    "RSD" +
+                                        productProvider.products[index].price
+                                            .toString(),
+                                    style: TextStyle(
+                                        fontFamily: 'Sketch_Block',
+                                        fontSize: 22,
+                                        color: Colors.white)),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),

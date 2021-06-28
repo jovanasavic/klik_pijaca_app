@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:klik_pijaca_app/src/widgets/loading.dart';
 
-
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -24,16 +23,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
       key: _key,
       backgroundColor: white,
-      body:authProvider.status == Status.Authenticating? Loading() : SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
-          children: <Widget> [
-            SizedBox(
-              height: 60,
-            ),
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("images/logo.png",   width: 240, height: 240,),
+                Image.asset(
+                  "images/logo.png",
+                  width: 240,
+                  height: 240,
+                ),
               ],
             ),
             Padding(
@@ -41,17 +41,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: grey),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    borderRadius: BorderRadius.circular(15)),
                 child: Padding(
-                  padding: const EdgeInsets.only(left:10.0),
+                  padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    autofocus: true,
                     controller: authProvider.email,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Email",
-                        icon: Icon(Icons.email)
-                    ),
+                        icon: Icon(Icons.email)),
                   ),
                 ),
               ),
@@ -61,17 +60,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: grey),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    borderRadius: BorderRadius.circular(15)),
                 child: Padding(
-                  padding: const EdgeInsets.only(left:10.0),
+                  padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    autofocus: true,
                     controller: authProvider.name,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Username",
-                        icon: Icon(Icons.person)
-                    ),
+                        icon: Icon(Icons.person)),
                   ),
                 ),
               ),
@@ -81,17 +79,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: grey),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    borderRadius: BorderRadius.circular(15)),
                 child: Padding(
-                  padding: const EdgeInsets.only(left:10.0),
+                  padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
                     controller: authProvider.password,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Password",
-                        icon: Icon(Icons.lock)
-                    ),
+                        icon: Icon(Icons.lock)),
                   ),
                 ),
               ),
@@ -100,12 +96,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                 onTap: () async {
-
-
-                  if(!await authProvider.signUp()){
+                  if (!await authProvider.signUp()) {
                     _key.currentState.showSnackBar(
-                        SnackBar(content: Text("Registration failed!"))
-                    );
+                        SnackBar(content: Text("Registration failed!")));
                     return;
                   }
                   authProvider.clearController();
@@ -115,28 +108,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration: BoxDecoration(
                       color: green,
                       border: Border.all(color: grey),
-                      borderRadius: BorderRadius.circular(15)
-                  ),
+                      borderRadius: BorderRadius.circular(15)),
                   child: Padding(
-                      padding: const EdgeInsets.only(top:10, bottom: 10),
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget> [
-                          CustomText(text: "Register", color: white, size: 20,)
+                        children: <Widget>[
+                          CustomText(
+                            text: "Register",
+                            color: white,
+                            size: 20,
+                          )
                         ],
-                      )
-                  ),
+                      )),
                 ),
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 changeScreen(context, LoginScreen());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:<Widget> [
-                  CustomText(text: "Login here", size: 20,),
+                children: <Widget>[
+                  CustomText(
+                    text: "Login here",
+                    size: 20,
+                  ),
                 ],
               ),
             ),
@@ -145,4 +143,4 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
-  }
+}

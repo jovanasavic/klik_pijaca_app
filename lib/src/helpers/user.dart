@@ -28,6 +28,13 @@ class UserServices {
     });
   }
 
+//CHANGED
+  void addToFavourite({String userId, Map cartItem}) {
+    _firestore.collection(collection).doc(userId).update({
+      "likedFood": FieldValue.arrayUnion([cartItem])
+    });
+  }
+
   void removeFromCart({String userId, Map cartItem}) {
     _firestore.collection(collection).doc(userId).update({
       "cart": FieldValue.arrayRemove([cartItem])

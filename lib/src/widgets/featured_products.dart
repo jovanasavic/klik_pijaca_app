@@ -2,6 +2,7 @@ import 'package:klik_pijaca_app/src/helpers/screen_navigation.dart';
 import 'package:klik_pijaca_app/src/providers/product.dart';
 import 'package:klik_pijaca_app/src/screens/details.dart';
 import 'package:flutter/material.dart';
+import 'package:klik_pijaca_app/src/widgets/test.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -59,12 +60,8 @@ class Featured extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: IconButton(
-                                icon: new Image.asset('images/like2.png'),
-                                onPressed: () {},
-                              ),
-                            ),
+                                padding: const EdgeInsets.all(0.0),
+                                child: Test()),
                           ],
                         ),
                         ClipRRect(

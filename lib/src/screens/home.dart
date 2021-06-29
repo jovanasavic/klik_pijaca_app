@@ -13,6 +13,7 @@ import 'package:klik_pijaca_app/src/widgets/custom_text.dart';
 import 'package:klik_pijaca_app/src/widgets/featured_products.dart';
 import 'package:flutter/material.dart';
 import 'package:klik_pijaca_app/src/widgets/loading.dart';
+import 'package:klik_pijaca_app/src/widgets/test.dart';
 import 'package:provider/provider.dart';
 
 import 'category.dart';
@@ -290,7 +291,9 @@ class _HomeState extends State<Home> {
                   ),
                   IconButton(
                     icon: new Image.asset('images/chart.png'),
-                    onPressed: () {},
+                    onPressed: () {
+                      changeScreen(context, CartScreen());
+                    },
                   ),
                   IconButton(
                     icon: new Image.asset('images/wishlist.png'),

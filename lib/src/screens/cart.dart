@@ -61,7 +61,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 4, right: 4),
                         child: CustomText(
-                          text: "2",
+                          text: userProvider.userModel.cart.length.toString(),
                           color: green,
                           size: 17,
                           weight: FontWeight.bold,

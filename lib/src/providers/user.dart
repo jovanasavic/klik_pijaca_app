@@ -137,6 +137,61 @@ class UserProvider with ChangeNotifier {
 
       //if (!itemExists) {
       _userServicse.addToCart(userId: _user.uid, cartItem: cartItem);
+
+      //}
+
+      // CartItemModel item = CartItemModel.fromMap(cartItem);
+
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
+
+  //changed
+
+  Future<bool> addToFavourites({ProductModel product, int quantity}) async {
+    print("THE PRODUC IS: ${product.toString()}");
+    print("THE qty IS: ${quantity.toString()}");
+
+    try {
+      var uuid = Uuid();
+      String cartItemId = uuid.v4();
+      List cart = [];
+      await _userServicse
+          .getUserById(_user.uid)
+          .then((value) => cart = value.cart);
+      //_userModel.cart;
+
+      print("CAAAAART " + cart.toString());
+      // _userServicse
+      //     .getUserById(_user.uid)
+      //     .then((value) => print("AAAAAAAAAAAAAAA" + value.cart.toString()));
+      //bool itemExists = false;
+      Map cartItem = {
+        "id": cartItemId,
+        "name": product.name,
+        "image": product.image,
+        "productId": product.id,
+        "price": product.price,
+        "quantity": quantity,
+        "totalSales": product.price * quantity
+      };
+      // for (Map item in cart) {
+      //   if (item["productId"] == cartItem["productId"]) {
+      //     print(item["productId"].toString());
+      //     itemExists = true;
+      //     break;
+      //   }
+      // }
+
+      // _userServicse.getCartItems(_user.uid);
+
+      //if (!itemExists) {
+      _userServicse.addToFavourite(userId: _user.uid, cartItem: cartItem);
+
       //}
 
       // CartItemModel item = CartItemModel.fromMap(cartItem);

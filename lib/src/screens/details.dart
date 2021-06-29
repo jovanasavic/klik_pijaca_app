@@ -92,7 +92,9 @@ class _DetailsState extends State<Details> {
                                           padding: const EdgeInsets.only(
                                               left: 4, right: 4),
                                           child: CustomText(
-                                            text: "2",
+                                            text: userProvider
+                                                .userModel.cart.length
+                                                .toString(),
                                             color: green,
                                             size: 18,
                                             weight: FontWeight.bold,
